@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker-build": "docker build -f .docker/Dockerfile -t kmdb ."
   },
   "dependencies": {
     "react": "^18.2.0",
