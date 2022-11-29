@@ -72,7 +72,6 @@ jobs:
 
       # Build and push image to Google Container Registry
       - name: Build & Push
-        working-directory: .docker
         run: |-
           gcloud builds submit \
             --quiet \
