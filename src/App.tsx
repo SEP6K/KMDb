@@ -1,5 +1,7 @@
+import Register from "./pages/Register";
+
 function App() {
-  return <div>hello world</div>;
+  return <Register />;
 }
 
 export default App;

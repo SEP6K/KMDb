@@ -3,12 +3,12 @@ name: Google Cloud Run Deploy
 on:
   push:
     branches:
-      - main
+      - dev
 
 env:
   PROJECT_ID: ${{ secrets.GCR_PROJECT }}
   RUN_REGION: europe-west3
-  SERVICE_NAME: kmdb
+  SERVICE_NAME: kmdb-dev
 
 jobs:
   build:
