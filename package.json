@@ -11,7 +11,9 @@
     "docker-build:arm": "docker build -f .docker/Dockerfile.arm -t kmdb .",
     "docker-run": "docker run -p 8080:8080 kmdb",
     "docker-build-run": "docker build -f .docker/Dockerfile -t kmdb . && docker run -p 8080:8080 kmdb",
-    "docker-build-run:arm": "docker build -f .docker/Dockerfile.arm -t kmdb . && docker run -p 8080:8080 kmdb"
+    "docker-build-run:arm": "docker build -f .docker/Dockerfile.arm -t kmdb . && docker run -p 8080:8080 kmdb",
+    "deploy-local": "tsc && vite build && docker build -f .docker/Dockerfile -t kmdb . && docker run -p 8080:8080 kmdb",
+    "deploy-local:arm": "tsc && vite build && docker build -f .docker/Dockerfile.arm -t kmdb . && docker run -p 8080:8080 kmdb"
   },
   "dependencies": {
     "@types/node": "^18.11.10",
