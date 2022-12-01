@@ -8,15 +8,20 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "docker-build": "docker build -f .docker/Dockerfile -t kmdb .",
-    "docker-build:arm": "docker build -f .docker/Dockerfile.arm -t kmdb-arm .",
+    "docker-build:arm": "docker build -f .docker/Dockerfile.arm -t kmdb .",
     "docker-run": "docker run -p 8080:8080 kmdb",
-    "docker-run:arm": "docker run -p 8080:8080 kmdb-arm"
+    "docker-build-run": "docker build -f .docker/Dockerfile -t kmdb . && docker run -p 8080:8080 kmdb",
+    "docker-build-run:arm": "docker build -f .docker/Dockerfile.arm -t kmdb . && docker run -p 8080:8080 kmdb",
+    "deploy-local": "tsc && vite build && docker build -f .docker/Dockerfile -t kmdb . && docker run -p 8080:8080 kmdb",
+    "deploy-local:arm": "tsc && vite build && docker build -f .docker/Dockerfile.arm -t kmdb . && docker run -p 8080:8080 kmdb"
   },
   "dependencies": {
-    "firebase": "^9.14.0",
+    "@types/node": "^18.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.3"
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.10",
+    "firebase": "^9.14.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",
