@@ -3,7 +3,7 @@ FROM node:18.8.0-alpine3.16 as build
 WORKDIR /app
 
 COPY . ./
-RUN npm ci
+# RUN npm ci
 # ---
 FROM fholzer/nginx-brotli:v1.12.2
 
