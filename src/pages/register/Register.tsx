@@ -4,7 +4,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useState } from "react";
-import { auth } from "../../utils/firebase";
+import { auth } from "../../../utils/firebase";
 
 const Register = () => {
   const [email, setEmail] = useState("");
