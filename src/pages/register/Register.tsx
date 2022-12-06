@@ -1,38 +1,27 @@
-import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../../utils/firebase";
+import { useAuth } from "../../auth/auth-provider";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { googleLogin, signUpWithEmailAndPass } = useAuth();
 
-  const googleProvider = new GoogleAuthProvider();
-  const GoogleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      console.log(result.user);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const signUpWithEmailAndPass = async () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
+  const GoogleLogin = async () =>
+    await googleLogin()
+      .then(() => {
         navigate("/");
-        // ...
       })
-      .catch((error) => {
-        console.log(error);
-        // ..
+      .catch((err) => console.error(err));
+
+  const signUpWithEmailAndPassword = async () => {
+    signUpWithEmailAndPass(email, password)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error(err);
       });
   };
 
@@ -68,9 +57,7 @@ const Register = () => {
           position: "relative",
         }}
       >
-        <button type="submit" onClick={() => signUpWithEmailAndPass()}>
-          Register
-        </button>
+        <button onClick={signUpWithEmailAndPassword}>Register</button>
         <div
           style={{
             height: "1px",
