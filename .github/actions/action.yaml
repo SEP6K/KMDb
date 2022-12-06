@@ -52,13 +52,14 @@ runs:
     - name: Build Development
       shell: bash
       run: npm run build
-      env: VITE_API_KEY:${{inputs.VITE_API_KEY}}
-        VITE_AUTH_DOMAIN:${{inputs.VITE_AUTH_DOMAIN}}
-        VITE_PROJECT_ID:${{inputs.VITE_PROJECT_ID}}
-        VITE_STORAGE_BUCKET:${{inputs.VITE_STORAGE_BUCKET}}
-        VITE_MESSAGING_SENDER_ID:${{inputs.VITE_MESSAGING_SENDER_ID}}
-        VITE_APP_ID:${{inputs.VITE_APP_ID}}
-        VITE_MEASUREMENT_ID:${{inputs.VITE_MEASUREMENT_ID}}
+      env:
+        VITE_API_KEY: ${{inputs.VITE_API_KEY}}
+        VITE_AUTH_DOMAIN: ${{inputs.VITE_AUTH_DOMAIN}}
+        VITE_PROJECT_ID: ${{inputs.VITE_PROJECT_ID}}
+        VITE_STORAGE_BUCKET: ${{inputs.VITE_STORAGE_BUCKET}}
+        VITE_MESSAGING_SENDER_ID: ${{inputs.VITE_MESSAGING_SENDER_ID}}
+        VITE_APP_ID: ${{inputs.VITE_APP_ID}}
+        VITE_MEASUREMENT_ID: ${{inputs.VITE_MEASUREMENT_ID}}
 
     - name: Archive Production Artifact
       uses: actions/upload-artifact@main
