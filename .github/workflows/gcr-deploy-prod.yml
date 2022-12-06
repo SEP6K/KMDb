@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/action
+      - uses: .github/actions/action
         with:
           VITE_API_KEY: ${{secrets.VITE_API_KEY}}
           VITE_APP_ID: ${{secrets.VITE_APP_ID}}
