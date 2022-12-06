@@ -1,9 +1,12 @@
-function storageAvailable(type) {
+// @ts-ignore
+export const storageAvailable = () => {
   let storage;
   try {
-    storage = window[type];
+    storage = window[localStorage as any];
     const x = "__storage_test__";
+    // @ts-ignore
     storage.setItem(x, x);
+    // @ts-ignore
     storage.removeItem(x);
     return true;
   } catch (e) {
@@ -23,6 +26,4 @@ function storageAvailable(type) {
       storage.length !== 0
     );
   }
-}
-
-export default storageAvailable;
+};
