@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: ./github/actions/action.yaml
+      - uses: ./.github/actions/action.yaml
         with:
           VITE_API_KEY: ${{secrets.VITE_API_KEY}}
           VITE_APP_ID: ${{secrets.VITE_APP_ID}}
