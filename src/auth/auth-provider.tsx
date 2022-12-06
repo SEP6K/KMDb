@@ -4,8 +4,9 @@ import {
   signInWithPopup,
   UserCredential,
 } from "@firebase/auth";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../utils/firebase";
+import { useLocalStorage } from "../utils/use-local-storage";
 
 type User = {
   username: string;
@@ -19,6 +20,7 @@ type Context = {
     password: string
   ) => Promise<UserCredential>;
   googleLogin: () => Promise<UserCredential>;
+  logout: () => Promise<void>;
 };
 
 type ContextProps = {
@@ -33,7 +35,18 @@ const appAuth = auth;
 export const useAuth = (): Context => useContext(Context);
 
 export const AuthContext: React.FC<ContextProps> = ({ children }) => {
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const { getItem, setItem, removeItem } = useLocalStorage();
+  const [user, setUser] = useState<User | undefined>(
+    getItem("user") ?? undefined
+  );
+
+  useEffect(() => {
+    if (user) {
+      setItem("user", user);
+    } else {
+      removeItem("user");
+    }
+  }, [user]);
 
   const signUpWithEmailAndPass = async (email: string, password: string) =>
     createUserWithEmailAndPassword(appAuth, email, password).then((user) => {
@@ -59,7 +72,14 @@ export const AuthContext: React.FC<ContextProps> = ({ children }) => {
       return user;
     });
 
-  const context: Context = { signUpWithEmailAndPass, googleLogin, user };
+  const logout = async () => auth.signOut().then(() => removeItem("user"));
+
+  const context: Context = {
+    signUpWithEmailAndPass,
+    googleLogin,
+    user,
+    logout,
+  };
 
   return <Context.Provider value={context}>{children}</Context.Provider>;
 };

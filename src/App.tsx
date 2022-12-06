@@ -1,6 +1,19 @@
-import Register from "./pages/register/Register";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useAuth } from "./auth/auth-provider";
 
 function App() {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    logout().then(() => navigate("/register"));
+  };
+
+  useEffect(() => {
+    if (!user) navigate("/register");
+  }, [user]);
+
   return (
     <div
       style={{
@@ -9,9 +22,12 @@ function App() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
+        gap: "16px",
       }}
     >
-      Hello world
+      Hello {user?.username}
+      <button onClick={handleLogout}>Log out</button>
     </div>
   );
 }
