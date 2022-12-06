@@ -62,4 +62,4 @@ runs:
       with:
         name: build
         path: dist
-      shell: bash
+    shell: bash
