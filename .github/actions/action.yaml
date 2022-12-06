@@ -95,4 +95,4 @@ runs:
       uses: actions/upload-artifact@main
       with:
         name: build
-        path: dist
+        path: build
