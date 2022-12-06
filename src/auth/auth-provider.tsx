@@ -72,7 +72,11 @@ export const AuthContext: React.FC<ContextProps> = ({ children }) => {
       return user;
     });
 
-  const logout = async () => auth.signOut().then(() => removeItem("user"));
+  const logout = async () =>
+    auth.signOut().then(() => {
+      removeItem("user");
+      setUser(undefined);
+    });
 
   const context: Context = {
     signUpWithEmailAndPass,

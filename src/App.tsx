@@ -7,7 +7,7 @@ function App() {
   const { user, logout } = useAuth();
 
   const handleLogout = async () => {
-    logout().then(() => navigate("/register"));
+    logout();
   };
 
   useEffect(() => {
