@@ -1,10 +1,5 @@
 name: Google Cloud Run Deploy
 # https://github.com/google-github-actions/setup-gcloud
-on:
-  push:
-    branches:
-      - main
-
 inputs:
   VITE_API_KEY:
     description: Firebase api key
@@ -27,6 +22,11 @@ inputs:
   VITE_MEASUREMENT_ID:
     description: Firebase measurement id
     required: true
+
+on:
+  push:
+    branches:
+      - main
 
 env:
   PROJECT_ID: ${{ secrets.GCR_PROJECT }}
