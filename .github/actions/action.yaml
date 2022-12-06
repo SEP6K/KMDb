@@ -25,6 +25,7 @@ inputs:
     required: true
 
 runs:
+  using: "composite"
   steps:
     - name: Checkout Repo
       uses: actions/checkout@main
