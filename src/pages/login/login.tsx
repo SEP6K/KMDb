@@ -8,9 +8,7 @@ export const Login = () => {
   const { signInWithEmailAndPass, user, googleLogin } = useAuth();
   const navigate = useNavigate();
 
-  const signIn = async () => {
-    await signInWithEmailAndPass(email, password);
-  };
+  const signIn = async () => await signInWithEmailAndPass(email, password);
 
   useEffect(() => {
     if (user) navigate("/");

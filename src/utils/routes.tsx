@@ -1,5 +1,5 @@
 import { Login } from "../pages/login/login";
-import Register from "../pages/register/Register";
+import Register from "../pages/register/register";
 
 type Route = {
   path: string;
