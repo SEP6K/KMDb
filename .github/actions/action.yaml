@@ -48,6 +48,7 @@ runs:
         CI: true
 
     - name: Build Development
+      shell: bash
       run: npm run build
       env: VITE_API_KEY:${{inputs.VITE_API_KEY}}
         VITE_AUTH_DOMAIN:${{inputs.VITE_AUTH_DOMAIN}}
@@ -62,4 +63,3 @@ runs:
       with:
         name: build
         path: dist
-      shell: bash
