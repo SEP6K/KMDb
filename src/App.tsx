@@ -1,7 +1,19 @@
-import Register from "./pages/Register";
+import Register from "./pages/register/Register";
 
 function App() {
-  return <Register />;
+  return (
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      Hello world
+    </div>
+  );
 }
 
 export default App;
