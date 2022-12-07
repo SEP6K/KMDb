@@ -1,29 +1,18 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { useAuth } from "../../auth/auth-provider";
 
-const Register = () => {
+export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signInWithEmailAndPass, user, googleLogin } = useAuth();
   const navigate = useNavigate();
-  const { googleLogin, signUpWithEmailAndPass } = useAuth();
 
-  const GoogleLogin = async () =>
-    await googleLogin()
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => console.error(err));
+  const signIn = async () => await signInWithEmailAndPass(email, password);
 
-  const signUpWithEmailAndPassword = async () => {
-    signUpWithEmailAndPass(email, password)
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user]);
 
   return (
     <div
@@ -57,7 +46,7 @@ const Register = () => {
           position: "relative",
         }}
       >
-        <button onClick={signUpWithEmailAndPassword}>Register</button>
+        <button onClick={signIn}>Login</button>
         <div
           style={{
             height: "1px",
@@ -77,10 +66,8 @@ const Register = () => {
         >
           or
         </p>
-        <button onClick={GoogleLogin}>Google OAuth</button>
+        <button onClick={googleLogin}>Google OAuth</button>
       </div>
     </div>
   );
 };
-
-export default Register;
