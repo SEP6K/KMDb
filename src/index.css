@@ -77,6 +77,20 @@ input:hover {
   border-color: #646cff;
 }
 
+.infinite {
+  animation: infinity infinite 1s;
+}
+
+@keyframes infinity {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
