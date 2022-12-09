@@ -1,4 +1,5 @@
 import { Login } from "../pages/login/login";
+import { Movies } from "../pages/movies/movies";
 import Register from "../pages/register/Register";
 
 type Route = {
@@ -14,5 +15,9 @@ export const routes: Route[] = [
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/movies",
+    element: <Movies />,
   },
 ];

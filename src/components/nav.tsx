@@ -1,8 +1,9 @@
+import { useNavigate } from "react-router";
 import { Search } from "./search";
-import { Spinner } from "./spinner";
 import { UserPanel } from "./user-panel";
 
 export const NavBar = () => {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -30,7 +31,7 @@ export const NavBar = () => {
         >
           KMDb
         </p>
-        <button>Movies</button>
+        <button onClick={() => navigate("/movies")}>Movies</button>
         <button>Directors</button>
         <button>Your list</button>
         <Search />
