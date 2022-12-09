@@ -15,7 +15,7 @@ export type Movie = {
 };
 
 export type SimpleMovie = {
-  id: number;
+  movie_id: number;
   title: string;
   year: number;
 };

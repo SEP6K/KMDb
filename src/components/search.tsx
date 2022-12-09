@@ -105,7 +105,7 @@ export const Search = () => {
             <ResultItem
               title={result.title}
               year={result.year}
-              key={result.id}
+              key={result.movie_id}
             />
           );
         })}
