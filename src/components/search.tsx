@@ -1,16 +1,34 @@
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { useDbContext } from "../context/db-context";
+import { SimpleMovie } from "../models/movie";
 import { Spinner } from "./spinner";
 
 export const Search = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const { getMovieByTitle, getMovieByYear } = useDbContext();
+  const [searchResult, setSearchResult] = useState<SimpleMovie[]>([]);
 
   useEffect(() => {
     setIsLoading(true);
     const handler = setTimeout(() => {
-      if (search !== "") console.log(search);
-      setIsLoading(false);
+      if (search !== "") {
+        const a = async () => {
+          if (search.toString().match(/^[12][0-9]{3}$/)) {
+            return await getMovieByYear(parseInt(search));
+          }
+
+          return await getMovieByTitle(search);
+        };
+
+        a().then((res) => {
+          setSearchResult(res);
+          setIsLoading(false);
+        });
+      } else {
+        setIsLoading(false);
+      }
     }, 1000);
 
     return () => clearTimeout(handler);
@@ -37,7 +55,7 @@ export const Search = () => {
         }}
       />
       <input
-        placeholder="Search.."
+        placeholder="Search by title or year.."
         style={{
           paddingLeft: "44px",
           height: "100%",
@@ -68,13 +86,13 @@ export const Search = () => {
           width: "100%",
         }}
       >
-        {[...Array(5).keys()].map((_, index) => {
+        {searchResult.map((result, index) => {
           return (
             <div
               style={{
                 display: "flex",
-                justifyContent: "flex-start ",
-                alignItems: "center",
+                justifyContent: "space-between",
+                alignItems: "flex-end ",
                 borderRadius: "8px",
                 backgroundColor: "#1a1a1a",
                 padding: "8px 16px",
@@ -82,7 +100,15 @@ export const Search = () => {
               }}
               key={index}
             >
-              Result movie #{index}
+              <div style={{ fontWeight: 500 }}>{result.title}</div>
+              <div
+                style={{
+                  fontSize: "12px",
+                  color: "grey",
+                }}
+              >
+                {result.year}
+              </div>
             </div>
           );
         })}
