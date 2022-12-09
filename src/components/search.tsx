@@ -15,7 +15,7 @@ export const Search = () => {
     const handler = setTimeout(() => {
       if (search !== "") {
         const a = async () => {
-          if (search.toString().match(/^[12][0-9]{3}$/)) {
+          if (search.match(/^[12][0-9]{3}$/)) {
             return await getMovieByYear(parseInt(search));
           }
 
