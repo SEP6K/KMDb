@@ -80,6 +80,7 @@ export const Search = () => {
                 padding: "8px 16px",
                 width: "100%",
               }}
+              key={index}
             >
               Result movie #{index}
             </div>

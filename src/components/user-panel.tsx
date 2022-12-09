@@ -3,6 +3,7 @@ import { useAuth } from "../auth/auth-provider";
 
 export const UserPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [color, setColor] = useState("transparent");
   const { user, logout } = useAuth();
   return (
     <div
@@ -12,28 +13,38 @@ export const UserPanel = () => {
         alignItems: "center",
         position: "relative",
         gap: "16px",
+        paddingLeft: "24px",
+        color: "white",
+        fontWeight: "bold",
+        backgroundColor: color,
+        transition: ".2s ease-in-out background",
+        cursor: "pointer",
+        borderRadius: "42px",
       }}
+      className="user-panel"
+      onMouseEnter={() => setColor("#646cff")}
+      onMouseLeave={() => !isOpen && setColor("transparent")}
+      onClick={() => setIsOpen(!isOpen)}
     >
       {user?.username}
       <div
         style={{
           borderRadius: "50%",
-          width: "48px",
-          height: "48px",
+          width: "42px",
+          height: "42px",
           backgroundImage: "url(https://api.multiavatar.com/Binx%20Bond.png)",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           cursor: "pointer",
         }}
-        onClick={() => setIsOpen(!isOpen)}
       />
       <div
         style={{
           backgroundColor: "#1a1a1a",
           borderRadius: "8px",
           position: "absolute",
-          top: "70px",
+          top: "64px",
           padding: "16px",
           right: "0",
           display: isOpen ? "flex" : "none",

@@ -21,6 +21,15 @@ export const NavBar = () => {
           gap: "32px",
         }}
       >
+        <p
+          style={{
+            color: "#646cff",
+            fontSize: "28px",
+            fontWeight: "900",
+          }}
+        >
+          KMDb
+        </p>
         <button>Movies</button>
         <button>Directors</button>
         <button>Your list</button>
