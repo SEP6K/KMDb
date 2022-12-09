@@ -1,3 +1,4 @@
+import { VscClose } from "react-icons/vsc";
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { useDbContext } from "../context/db-context";
@@ -11,6 +12,7 @@ export const Search = () => {
   const [searchResult, setSearchResult] = useState<SimpleMovie[]>([]);
 
   useEffect(() => {
+    if (search.length === 0) return;
     setIsLoading(true);
     const handler = setTimeout(() => {
       if (search !== "") {
@@ -61,6 +63,7 @@ export const Search = () => {
           height: "100%",
           marginRight: "16px",
         }}
+        value={search}
         onChange={(e) => setSearch(e.target.value)}
       ></input>
       <div
@@ -68,10 +71,21 @@ export const Search = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          visibility: isLoading ? "visible" : "hidden",
+          visibility: isLoading || search.length > 0 ? "visible" : "hidden",
         }}
       >
-        <Spinner />
+        {search.length > 0 && !isLoading ? (
+          <VscClose
+            style={{
+              cursor: "pointer",
+              height: "24px",
+              width: "24px",
+            }}
+            onClick={() => setSearch("")}
+          />
+        ) : (
+          <Spinner />
+        )}
       </div>
       <div
         style={{
@@ -86,32 +100,49 @@ export const Search = () => {
           width: "100%",
         }}
       >
-        {searchResult.map((result, index) => {
+        {searchResult.map((result) => {
           return (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-end ",
-                borderRadius: "8px",
-                backgroundColor: "#1a1a1a",
-                padding: "8px 16px",
-                width: "100%",
-              }}
-              key={index}
-            >
-              <div style={{ fontWeight: 500 }}>{result.title}</div>
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "grey",
-                }}
-              >
-                {result.year}
-              </div>
-            </div>
+            <ResultItem
+              title={result.title}
+              year={result.year}
+              key={result.id}
+            />
           );
         })}
+      </div>
+    </div>
+  );
+};
+
+type ResultProps = {
+  title: string;
+  year: number;
+};
+
+const ResultItem = ({ title, year }: ResultProps) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-end",
+        borderRadius: "8px",
+        backgroundColor: "#1a1a1a",
+        padding: "8px 16px",
+        width: "100%",
+        cursor: "pointer",
+        transition: ".2s ease-in-out",
+      }}
+      className="search-result"
+    >
+      <div style={{ fontWeight: 500 }}>{title}</div>
+      <div
+        style={{
+          fontSize: "12px",
+          color: "grey",
+        }}
+      >
+        {year}
       </div>
     </div>
   );
