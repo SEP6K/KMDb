@@ -1,17 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "./auth/auth-provider";
+import { Footer } from "./components/footer";
+import { NavBar } from "./components/nav";
 
 function App() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
-
-  const handleLogout = async () => {
-    logout();
-  };
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (!user) navigate("/register");
+    if (!user) navigate("/login");
   }, [user]);
 
   return (
@@ -23,11 +21,22 @@ function App() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        gap: "16px",
       }}
     >
-      Hello {user?.username}
-      <button onClick={handleLogout}>Log out</button>
+      <NavBar />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: "16px",
+          height: "100%",
+        }}
+      >
+        Hello world
+      </div>
+      <Footer />
     </div>
   );
 }

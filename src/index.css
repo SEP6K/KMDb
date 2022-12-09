@@ -28,6 +28,12 @@ a:hover {
   color: #535bf2;
 }
 
+p {
+  margin: 0;
+  padding: 0;
+  margin-inline: 0;
+}
+
 body {
   margin: 0;
   display: flex;
@@ -75,6 +81,20 @@ input {
 
 input:hover {
   border-color: #646cff;
+}
+
+.infinite {
+  animation: infinity infinite 1s;
+}
+
+@keyframes infinity {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-color-scheme: light) {
