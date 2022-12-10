@@ -1,4 +1,4 @@
 export type YearRating = {
-  avgRating: number;
+  avgrating: number;
   year: number;
 };
