@@ -107,11 +107,24 @@ export const Ratings = () => {
             display: "flex",
             flexGrow: 1,
             width: "100%",
+            height: "100%",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
           }}
         >
-          {activeTab}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexGrow: 1,
+              height: "100%",
+              width: "80%",
+            }}
+          >
+            {activeTab}
+          </div>
         </div>
       </div>
     </div>
