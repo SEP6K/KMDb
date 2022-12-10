@@ -32,8 +32,7 @@ export const NavBar = () => {
           KMDb
         </p>
         <button onClick={() => navigate("/movies")}>Movies</button>
-        <button>Directors</button>
-        <button>Your list</button>
+        <button onClick={() => navigate("/ratings")}>Yearly ratings</button>
         <Search />
       </div>
       <div
