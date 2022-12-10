@@ -110,7 +110,18 @@ export const Ratings = () => {
 
   const view = useMemo(() => {
     if (!filteredDataset) {
-      return <Spinner />;
+      return (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <Spinner />
+        </div>
+      );
     }
 
     return (
