@@ -83,6 +83,14 @@ input:hover {
   border-color: #646cff;
 }
 
+.search-result {
+  border: 1px solid transparent;
+}
+
+.search-result:hover {
+  border-color: #646cff;
+}
+
 .infinite {
   animation: infinity infinite 1s;
 }
