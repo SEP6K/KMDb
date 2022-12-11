@@ -1,5 +1,6 @@
 import React, { createContext, useContext } from "react";
-import { Movie, SimpleMovie } from "../models/movie";
+import { ActorWithMovies, YearlyActors } from "../models/actor";
+import { SimpleMovie } from "../models/movie";
 import { YearRating } from "../models/rating";
 
 type Props = {
@@ -10,7 +11,9 @@ type Context = {
   getMovieById: (id: number) => Promise<SimpleMovie[]>;
   getMovieByTitle: (title: string) => Promise<SimpleMovie[]>;
   getMovieByYear: (year: number) => Promise<SimpleMovie[]>;
-  getYearlyRatings: (from?: number, to?: number) => Promise<YearRating[]>;
+  getYearlyRatings: () => Promise<YearRating[]>;
+  getNumberOfActorsPerYear: () => Promise<YearlyActors[]>;
+  getActorsWithMostMovies: (count: number) => Promise<ActorWithMovies[]>;
 };
 
 const Context = createContext<Context>({} as Context);
@@ -38,12 +41,23 @@ export const DbContext = ({ children }: Props) => {
     );
   };
 
-  const getYearlyRatings = async (
-    from?: number,
-    to?: number
-  ): Promise<YearRating[]> => {
+  const getYearlyRatings = async (): Promise<YearRating[]> => {
     return await fetch(baseURL + "/chart/ratings").then(
       (res) => res.json() as Promise<YearRating[]>
+    );
+  };
+
+  const getNumberOfActorsPerYear = async (): Promise<YearlyActors[]> => {
+    return await fetch(baseURL + "/chart/actors").then(
+      (res) => res.json() as Promise<YearlyActors[]>
+    );
+  };
+
+  const getActorsWithMostMovies = async (
+    count: number
+  ): Promise<ActorWithMovies[]> => {
+    return await fetch(baseURL + "/chart/topStars/" + count).then(
+      (res) => res.json() as Promise<ActorWithMovies[]>
     );
   };
 
@@ -52,6 +66,8 @@ export const DbContext = ({ children }: Props) => {
     getMovieByTitle,
     getMovieByYear,
     getYearlyRatings,
+    getNumberOfActorsPerYear,
+    getActorsWithMostMovies,
   };
 
   return <Context.Provider value={context}>{children}</Context.Provider>;
