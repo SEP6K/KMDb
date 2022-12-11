@@ -45,7 +45,7 @@ export const TopActors = () => {
         const labels = res.map((i) => i.name);
 
         const data = {
-          label: "Actors with most movies starred in",
+          label: "Number of movies",
           data: res.map((i) => i.moviesstarred),
         };
 

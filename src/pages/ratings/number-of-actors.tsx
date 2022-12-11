@@ -71,7 +71,7 @@ export const NumberOfActors = () => {
       const labels = actors.map((a) => a.birth);
 
       const data = {
-        label: "Number of actors born each year",
+        label: "Number of actors born",
         data: range.map((i) => i.count),
       };
 
