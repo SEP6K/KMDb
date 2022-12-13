@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/auth-provider";
 
 export const UserPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [color, setColor] = useState("transparent");
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
   return (
     <div
@@ -68,7 +70,14 @@ export const UserPanel = () => {
           }}
         />
         <button>Profile</button>
-        <button onClick={logout}>Logout</button>
+        <button
+          onClick={() => {
+            navigate("/login");
+            logout();
+          }}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
