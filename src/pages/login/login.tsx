@@ -57,7 +57,7 @@ export const Login = () => {
         <p
           style={{
             position: "absolute",
-            top: "30px",
+            top: "45px",
             left: "50%",
             translate: "-50% 0",
             padding: "0 8px",
