@@ -11,21 +11,23 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState(new Date());
+
   const navigate = useNavigate();
   const { googleLogin, signUpWithEmailAndPass } = useAuth();
   const { saveUserInfo } = useDbContext();
 
   const GoogleLogin = async () =>
     await googleLogin()
-      .then((res) => {
-        saveUserInfo(res.user.uid, res.user.displayName ?? "", "", "");
+      .then(async (res) => {
+        await saveUserInfo(res.user.uid, res.user.displayName ?? "", "", "");
         navigate("/");
       })
       .catch((err) => console.error(err));
 
   const signUpWithEmailAndPassword = async () => {
-    signUpWithEmailAndPass(email, password)
+    signUpWithEmailAndPass(email, password, username)
       .then((res) => {
+        console.log(res.user);
         saveUserInfo(res.user.uid, username, gender, dob.toLocaleDateString());
         navigate("/");
       })

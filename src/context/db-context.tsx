@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { ActorWithMovies, YearlyActors } from "../models/actor";
-import { SimpleMovie } from "../models/movie";
+import { FavouriteMovies, SimpleMovie, TmdbMovie } from "../models/movie";
 import { YearRating } from "../models/rating";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 };
 
 type Context = {
-  getMovieById: (id: number) => Promise<SimpleMovie[]>;
+  getMovieById: (id: number) => Promise<SimpleMovie>;
   getMovieByTitle: (title: string) => Promise<SimpleMovie[]>;
   getMovieByYear: (year: number) => Promise<SimpleMovie[]>;
   getYearlyRatings: () => Promise<YearRating[]>;
@@ -20,6 +20,8 @@ type Context = {
     gender: string,
     dob: string
   ) => Promise<void>;
+  getFavouriteMoviesForUser: (username: string) => Promise<FavouriteMovies[]>;
+  getSimilarMoviesForUser: (uId: string) => Promise<TmdbMovie[]>;
 };
 
 const Context = createContext<Context>({} as Context);
@@ -29,9 +31,9 @@ const baseURL = "https://kmdb-server-dev-mr4lg3chza-ey.a.run.app";
 export const useDbContext = (): Context => useContext(Context);
 
 export const DbContext = ({ children }: Props) => {
-  const getMovieById = async (id: number): Promise<SimpleMovie[]> => {
+  const getMovieById = async (id: number): Promise<SimpleMovie> => {
     return await fetch(baseURL + "/movie/id/" + id).then(
-      (res) => res.json() as Promise<SimpleMovie[]>
+      (res) => res.json() as Promise<SimpleMovie>
     );
   };
 
@@ -73,15 +75,35 @@ export const DbContext = ({ children }: Props) => {
     gender: string,
     dob: string
   ): Promise<void> => {
+    let userCred = JSON.stringify({
+      user_id: userId,
+      user_name: username,
+      gender: gender,
+      date_of_birth: dob,
+    });
+    console.log(userCred);
     await fetch(baseURL + "/userinfo", {
       method: "post",
-      body: JSON.stringify({
-        user_id: userId,
-        user_name: username,
-        gender: gender,
-        date_of_birth: dob,
-      }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: userCred,
     });
+  };
+
+  const getFavouriteMoviesForUser = async (
+    username: string
+  ): Promise<FavouriteMovies[]> => {
+    return await fetch(baseURL + `/userinfo/favouritemovies/${username}`).then(
+      (res) => res.json() as Promise<FavouriteMovies[]>
+    );
+  };
+
+  const getSimilarMoviesForUser = async (uId: string): Promise<TmdbMovie[]> => {
+    return await fetch(baseURL + `/movie/similar/${uId}`).then(
+      (res) => res.json() as Promise<TmdbMovie[]>
+    );
   };
 
   const context = {
@@ -92,6 +114,8 @@ export const DbContext = ({ children }: Props) => {
     getNumberOfActorsPerYear,
     getActorsWithMostMovies,
     saveUserInfo,
+    getFavouriteMoviesForUser,
+    getSimilarMoviesForUser,
   };
 
   return <Context.Provider value={context}>{children}</Context.Provider>;

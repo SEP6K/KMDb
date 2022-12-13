@@ -1,5 +1,6 @@
 import { Login } from "../pages/login/login";
 import { Movies } from "../pages/movies/movies";
+import { Profile } from "../pages/profile/Profile";
 import { Ratings } from "../pages/ratings/ratings";
 import Register from "../pages/register/Register";
 
@@ -24,5 +25,9 @@ export const routes: Route[] = [
   {
     path: "/ratings",
     element: <Ratings />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
 ];
