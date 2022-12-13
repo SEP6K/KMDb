@@ -17,17 +17,17 @@ const Register = () => {
 
   const GoogleLogin = async () =>
     await googleLogin()
-      .then(() => {
+      .then((res) => {
+        saveUserInfo(res.user.uid, res.user.displayName ?? "", "", "");
         navigate("/");
       })
       .catch((err) => console.error(err));
 
   const signUpWithEmailAndPassword = async () => {
-    // console.log(dob.toLocaleDateString());
     signUpWithEmailAndPass(email, password)
       .then((res) => {
         saveUserInfo(res.user.uid, username, gender, dob.toLocaleDateString());
-        // navigate("/");
+        navigate("/");
       })
       .catch((err) => {
         console.error(err);
