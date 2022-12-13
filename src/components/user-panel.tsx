@@ -7,6 +7,9 @@ export const UserPanel = () => {
   const [color, setColor] = useState("transparent");
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+
+  const username = user?.username.replaceAll(" ", "%20");
+
   return (
     <div
       style={{
@@ -34,7 +37,7 @@ export const UserPanel = () => {
           borderRadius: "50%",
           width: "42px",
           height: "42px",
-          backgroundImage: "url(https://api.multiavatar.com/Binx%20Bond.png)",
+          backgroundImage: `url(https://api.multiavatar.com/${username}.png)`,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
