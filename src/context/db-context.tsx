@@ -14,6 +14,12 @@ type Context = {
   getYearlyRatings: () => Promise<YearRating[]>;
   getNumberOfActorsPerYear: () => Promise<YearlyActors[]>;
   getActorsWithMostMovies: (count: number) => Promise<ActorWithMovies[]>;
+  saveUserInfo: (
+    userId: string,
+    username: string,
+    gender: string,
+    dob: string
+  ) => Promise<void>;
 };
 
 const Context = createContext<Context>({} as Context);
@@ -61,6 +67,23 @@ export const DbContext = ({ children }: Props) => {
     );
   };
 
+  const saveUserInfo = async (
+    userId: string,
+    username: string,
+    gender: string,
+    dob: string
+  ): Promise<void> => {
+    await fetch(baseURL + "/userinfo", {
+      method: "post",
+      body: JSON.stringify({
+        user_id: userId,
+        user_name: username,
+        gender: gender,
+        date_of_birth: dob,
+      }),
+    });
+  };
+
   const context = {
     getMovieById,
     getMovieByTitle,
@@ -68,6 +91,7 @@ export const DbContext = ({ children }: Props) => {
     getYearlyRatings,
     getNumberOfActorsPerYear,
     getActorsWithMostMovies,
+    saveUserInfo,
   };
 
   return <Context.Provider value={context}>{children}</Context.Provider>;
