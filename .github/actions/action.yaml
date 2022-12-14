@@ -41,6 +41,9 @@ inputs:
   TMDB_API_KEY:
     description: TMDB api key
     required: true
+  VITE_SERVER_URL:
+    description: Backend server url
+    required: true
 
 runs:
   using: "composite"
@@ -75,6 +78,7 @@ runs:
         DB_PASSWORD: ${{inputs.DB_PASSWORD}}
         DB_DATABASE: ${{inputs.DB_DATABASE}}
         TMDB_API_KEY: ${{inputs.TMDB_API_KEY}}
+        VITE_SERVER_URL: ${{inputs.VITE_SERVER_URL}}
       run: |
         echo "VITE_API_KEY=$VITE_API_KEY
         VITE_AUTH_DOMAIN=$VITE_AUTH_DOMAIN
@@ -88,7 +92,8 @@ runs:
         VITE_DB_USERNAME=$DB_USERNAME
         VITE_DB_PASSWORD=$DB_PASSWORD
         VITE_DB_DATABASE=$DB_DATABASE
-        VITE_TMDB_API_KEY=$TMDB_API_KEY" >> .env
+        VITE_TMDB_API_KEY=$TMDB_API_KEY
+        VITE_SERVER_URL=$VITE_SERVER_URL" >> .env
         npm run build
 
     - name: Archive Production Artifact

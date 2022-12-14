@@ -32,7 +32,7 @@ type Context = {
 
 const Context = createContext<Context>({} as Context);
 
-const baseURL = "https://kmdb-server-dev-mr4lg3chza-ey.a.run.app";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 export const useDbContext = (): Context => useContext(Context);
 
