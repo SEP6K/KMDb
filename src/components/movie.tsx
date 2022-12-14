@@ -1,11 +1,13 @@
-import { FC } from "react";
 import { EnrichedMovie, TmdbMovieResponse } from "../models/movie";
 
-export const Movie: FC<MovieProps> = (props): JSX.Element => {
-  const isTmdbMovieType = props.isTmdbMovieType;
+type Props = {
+  movie: TmdbMovieResponse | EnrichedMovie;
+  isTmdbMovieType: boolean;
+};
 
+export const Movie = ({ movie, isTmdbMovieType }: Props) => {
   if (isTmdbMovieType) {
-    const movie: TmdbMovieResponse = props.movie as TmdbMovieResponse;
+    const tmdb_movie = movie as TmdbMovieResponse;
     return (
       <div
         style={{
@@ -18,17 +20,17 @@ export const Movie: FC<MovieProps> = (props): JSX.Element => {
         }}
       >
         <img
-          src={movie.backdrop_path}
+          src={tmdb_movie.backdrop_path}
           style={{
             width: "100%",
           }}
         />
-        <h3>{movie.title}</h3>
-        <p>{movie.overview}</p>
+        <h3>{tmdb_movie.title}</h3>
+        <p>{tmdb_movie.overview}</p>
       </div>
     );
   } else {
-    const movie: EnrichedMovie = props.movie as EnrichedMovie;
+    const enrichedMovie = movie as EnrichedMovie;
     return (
       <div
         style={{
@@ -41,19 +43,14 @@ export const Movie: FC<MovieProps> = (props): JSX.Element => {
         }}
       >
         <img
-          src={movie.backdropPath}
+          src={enrichedMovie.backdropPath}
           style={{
             width: "100%",
           }}
         />
         <h3>{movie.title}</h3>
-        <p>{movie.plotDescription}</p>
+        <p>{enrichedMovie.plotDescription}</p>
       </div>
     );
   }
 };
-
-interface MovieProps {
-  movie: TmdbMovieResponse | EnrichedMovie;
-  isTmdbMovieType: boolean;
-}
