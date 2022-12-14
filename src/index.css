@@ -95,6 +95,20 @@ input:hover {
   animation: infinity infinite 1s;
 }
 
+.description {
+  display: -webkit-box;
+  line-clamp: 6;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+.fancy-background {
+  background-position: left !important;
+  background-size: contain, contain !important;
+  background-repeat: no-repeat !important;
+}
+
 @keyframes infinity {
   from {
     transform: rotate(0deg);

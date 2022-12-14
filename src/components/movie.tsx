@@ -1,56 +1,94 @@
 import { EnrichedMovie, TmdbMovieResponse } from "../models/movie";
 
 type Props = {
-  movie: TmdbMovieResponse | EnrichedMovie;
-  isTmdbMovieType: boolean;
+  movie: TmdbMovieResponse;
 };
 
-export const Movie = ({ movie, isTmdbMovieType }: Props) => {
-  if (isTmdbMovieType) {
-    const tmdb_movie = movie as TmdbMovieResponse;
-    return (
+export const TmdbMovie = ({ movie }: Props) => {
+  return (
+    <div
+      style={{
+        flexShrink: 0,
+        borderRadius: "8px",
+        padding: "24px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        flexDirection: "column",
+        gap: "16px",
+        width: "700px",
+        height: "300px",
+        background: `linear-gradient(to right, transparent, #1a1a1a 60%), url(${movie.backdrop_path})`,
+      }}
+      className="fancy-background"
+    >
       <div
         style={{
-          borderRadius: "10%",
-          height: "500px",
-          width: "400px",
-          backgroundColor: "#1a1a1a",
-          padding: "20px",
-          marginLeft: "30px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          flexDirection: "column",
+          gap: "16px",
+          maxWidth: "250px",
         }}
       >
-        <img
-          src={tmdb_movie.backdrop_path}
+        <p
           style={{
-            width: "100%",
+            fontSize: "24px",
+            fontWeight: 700,
           }}
-        />
-        <h3>{tmdb_movie.title}</h3>
-        <p>{tmdb_movie.overview}</p>
+        >
+          {movie.title}
+        </p>
+        <p className="description">{movie.overview}</p>
       </div>
-    );
-  } else {
-    const enrichedMovie = movie as EnrichedMovie;
-    return (
+    </div>
+  );
+};
+
+type EnrichedMovieProps = {
+  movie: EnrichedMovie;
+};
+
+export const Movie = ({ movie }: EnrichedMovieProps) => {
+  return (
+    <div
+      style={{
+        flexShrink: 0,
+        borderRadius: "8px",
+        padding: "24px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        flexDirection: "column",
+        gap: "16px",
+        width: "700px",
+        height: "300px",
+        background: `linear-gradient(to right, transparent, #1a1a1a 60%), url(${movie.backdropPath})`,
+      }}
+      className="fancy-background"
+    >
       <div
         style={{
-          borderRadius: "10%",
-          height: "500px",
-          width: "400px",
-          backgroundColor: "#1a1a1a",
-          padding: "20px",
-          marginLeft: "30px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          flexDirection: "column",
+          gap: "16px",
+          maxWidth: "250px",
+          maxHeight: "250px",
         }}
       >
-        <img
-          src={enrichedMovie.backdropPath}
+        <p
           style={{
-            width: "100%",
+            fontSize: "24px",
+            fontWeight: 700,
           }}
-        />
-        <h3>{movie.title}</h3>
-        <p>{enrichedMovie.plotDescription}</p>
+        >
+          {movie.title}
+        </p>
+        <p className="description">{movie.plotDescription}</p>
       </div>
-    );
-  }
+    </div>
+  );
 };
