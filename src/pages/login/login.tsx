@@ -44,9 +44,28 @@ export const Login = () => {
           gap: "16px",
           flexDirection: "column",
           position: "relative",
+          width: "216px",
         }}
       >
-        <button onClick={signIn}>Login</button>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "16px",
+          }}
+        >
+          <button style={{ width: "100px" }} onClick={signIn}>
+            Login
+          </button>
+          <button
+            style={{ width: "100px" }}
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </button>
+        </div>
         <div
           style={{
             height: "1px",
