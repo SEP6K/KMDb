@@ -18,7 +18,8 @@ type Context = {
   user?: User;
   signUpWithEmailAndPass: (
     email: string,
-    password: string
+    password: string,
+    username: string
   ) => Promise<UserCredential>;
   googleLogin: () => Promise<UserCredential>;
   signInWithEmailAndPass: (email: string, password: string) => Promise<void>;
@@ -50,12 +51,16 @@ export const AuthContext: React.FC<ContextProps> = ({ children }) => {
     }
   }, [user]);
 
-  const signUpWithEmailAndPass = async (email: string, password: string) =>
+  const signUpWithEmailAndPass = async (
+    email: string,
+    password: string,
+    username: string
+  ) =>
     createUserWithEmailAndPassword(appAuth, email, password).then((user) => {
       if (user.user) {
         setUser({
           email: user.user.email!,
-          username: user.user.displayName!,
+          username: username,
         });
       }
 

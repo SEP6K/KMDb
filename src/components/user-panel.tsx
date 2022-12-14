@@ -72,7 +72,13 @@ export const UserPanel = () => {
             borderRadius: "2px",
           }}
         />
-        <button>Profile</button>
+        <button
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          Profile
+        </button>
         <button
           onClick={() => {
             navigate("/login");
