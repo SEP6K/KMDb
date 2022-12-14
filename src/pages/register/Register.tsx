@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/auth-provider";
 import { useDbContext } from "../../context/db-context";
+import { GenderPicker } from "./gender";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -66,21 +67,26 @@ const Register = () => {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <label>
-        Gender:
-        <select
-          value={gender}
-          placeholder="Gender"
-          onChange={(e) => setGender(e.target.value)}
-        >
-          <option value="M">Male</option>
-          <option value="F">Female</option>
-        </select>
-      </label>
-      <label>
-        Birthday:
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+        }}
+      >
+        <p>Gender:</p>
+        <GenderPicker onChange={(e) => setGender(e)} />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+        }}
+      >
+        <p>Birthday:</p>
         <DatePicker selected={dob} onChange={(date: Date) => setDob(date)} />
-      </label>
+      </div>
       <div
         style={{
           display: "flex",
@@ -100,7 +106,7 @@ const Register = () => {
         <p
           style={{
             position: "absolute",
-            top: "30px",
+            top: "47px",
             left: "50%",
             translate: "-50% 0",
             padding: "0 8px",
