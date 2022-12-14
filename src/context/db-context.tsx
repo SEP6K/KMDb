@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { ActorWithMovies, YearlyActors } from "../models/actor";
 import {
+  EnrichedMovie,
   FavouriteMovies,
   SimpleMovie,
   TmdbMovieResponse,
@@ -26,6 +27,7 @@ type Context = {
   ) => Promise<void>;
   getFavouriteMoviesForUser: (username: string) => Promise<FavouriteMovies[]>;
   getSimilarMoviesForUser: (uId: string) => Promise<TmdbMovieResponse[]>;
+  getEnrichedMovie: (movieId: number) => Promise<EnrichedMovie>;
 };
 
 const Context = createContext<Context>({} as Context);
@@ -112,6 +114,12 @@ export const DbContext = ({ children }: Props) => {
     );
   };
 
+  const getEnrichedMovie = async (movieId: string): Promise<EnrichedMovie> => {
+    return await fetch(baseURL + `/movie/enriched/${movieId}`).then(
+      (res) => res.json() as Promise<EnrichedMovie>
+    );
+  };
+
   const context = {
     getMovieById,
     getMovieByTitle,
@@ -122,6 +130,7 @@ export const DbContext = ({ children }: Props) => {
     saveUserInfo,
     getFavouriteMoviesForUser,
     getSimilarMoviesForUser,
+    getEnrichedMovie,
   };
 
   return <Context.Provider value={context}>{children}</Context.Provider>;

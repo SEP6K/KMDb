@@ -82,3 +82,27 @@ type Languages = {
   iso_639_1: string;
   name: string;
 };
+
+export type EnrichedMovie = {
+  title: string;
+  releaseDate: string;
+  runtime: string;
+  genre: string;
+  director: Person;
+  writers: string;
+  actors: Person[];
+  plotDescription: string;
+  awards: string;
+  posterUrl: string;
+  boxOffice: string;
+  id: number;
+  year: number;
+  backdropPath: string;
+  posterPath: string;
+};
+
+type Person = {
+  id: number;
+  name: string;
+  birth: number;
+};

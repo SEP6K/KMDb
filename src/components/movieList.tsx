@@ -3,15 +3,19 @@ import { auth } from "../../utils/firebase";
 import { useAuth } from "../auth/auth-provider";
 import { Spinner } from "../components/spinner";
 import { useDbContext } from "../context/db-context";
-import { SimpleMovie, TmdbMovieResponse } from "../models/movie";
+import { EnrichedMovie, SimpleMovie, TmdbMovieResponse } from "../models/movie";
 import { Movie } from "./movie";
 
-export const MovieList = (username: string) => {
+export const MovieList = () => {
   const [favMovies, setFavMovies] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
 
-  const { getMovieById, getFavouriteMoviesForUser, getSimilarMoviesForUser } =
-    useDbContext();
+  const {
+    getMovieById,
+    getFavouriteMoviesForUser,
+    getSimilarMoviesForUser,
+    getEnrichedMovie,
+  } = useDbContext();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -20,18 +24,17 @@ export const MovieList = (username: string) => {
     };
 
     getFavouriteMoviesList().then(async (res) => {
-      const movies: SimpleMovie[] = await Promise.all(
+      const movies: EnrichedMovie[] = await Promise.all(
         res.map(async (element) => {
           const movieInfo = await getMovieById(element.movie_id);
-          console.log(movieInfo);
-          return movieInfo;
+          return await getEnrichedMovie(movieInfo.movie_id);
         })
       );
       setFavMovies(movies);
     });
-  }, []);
 
-  useEffect(() => {
+    // -------
+
     const getSimilarMoviesList = async () => {
       return await getSimilarMoviesForUser(auth.currentUser?.uid);
     };
@@ -44,21 +47,27 @@ export const MovieList = (username: string) => {
   return (
     <div>
       Your favourite movies:
-      {favMovies.map((movie: SimpleMovie) => {
-        return <p>{movie.title}</p>;
-      })}
+      <div
+        style={{
+          width: "100vw",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        {favMovies.map((movie: EnrichedMovie) => {
+          return <Movie movie={movie} isTmdbMovieType={false} />;
+        })}
+      </div>
       You might also like:
       <div
         style={{
-          height: "30vh",
           width: "100vw",
           display: "flex",
           flexDirection: "row",
         }}
       >
         {similarMovies.map((movie: TmdbMovie) => {
-          // return <p>{movie.title}</p>;
-          return <Movie movie={movie} />;
+          return <Movie movie={movie} isTmdbMovieType={true} />;
         })}
       </div>
     </div>
