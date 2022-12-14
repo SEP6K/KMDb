@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { auth } from "../../utils/firebase";
 import { useAuth } from "../auth/auth-provider";
-import { Spinner } from "../components/spinner";
 import { useDbContext } from "../context/db-context";
-import { EnrichedMovie, SimpleMovie, TmdbMovieResponse } from "../models/movie";
+import { EnrichedMovie, TmdbMovieResponse } from "../models/movie";
 import { Movie } from "./movie";
 
 export const MovieList = () => {
-  const [favMovies, setFavMovies] = useState([]);
-  const [similarMovies, setSimilarMovies] = useState([]);
+  const [favMovies, setFavMovies] = useState<EnrichedMovie[]>([]);
+  const [similarMovies, setSimilarMovies] = useState<TmdbMovieResponse[]>([]);
 
   const {
     getMovieById,
@@ -19,27 +18,29 @@ export const MovieList = () => {
   const { user } = useAuth();
 
   useEffect(() => {
+    if (!user) return;
+
     const getFavouriteMoviesList = async () => {
-      return await getFavouriteMoviesForUser(user?.username);
+      return await getFavouriteMoviesForUser(user.username);
     };
 
     getFavouriteMoviesList().then(async (res) => {
       const movies: EnrichedMovie[] = await Promise.all(
         res.map(async (element) => {
           const movieInfo = await getMovieById(element.movie_id);
-          return await getEnrichedMovie(movieInfo.movie_id);
+          return await getEnrichedMovie(movieInfo.movie_id.toString());
         })
       );
       setFavMovies(movies);
     });
 
-    // -------
-
     const getSimilarMoviesList = async () => {
-      return await getSimilarMoviesForUser(auth.currentUser?.uid);
+      if (!auth.currentUser) return;
+      return await getSimilarMoviesForUser(auth.currentUser.uid);
     };
 
     getSimilarMoviesList().then(async (res) => {
+      if (!res) return;
       setSimilarMovies(res);
     });
   }, []);
@@ -66,7 +67,7 @@ export const MovieList = () => {
           flexDirection: "row",
         }}
       >
-        {similarMovies.map((movie: TmdbMovie) => {
+        {similarMovies.map((movie: TmdbMovieResponse) => {
           return <Movie movie={movie} isTmdbMovieType={true} />;
         })}
       </div>

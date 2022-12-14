@@ -27,12 +27,13 @@ type Context = {
   ) => Promise<void>;
   getFavouriteMoviesForUser: (username: string) => Promise<FavouriteMovies[]>;
   getSimilarMoviesForUser: (uId: string) => Promise<TmdbMovieResponse[]>;
-  getEnrichedMovie: (movieId: number) => Promise<EnrichedMovie>;
+  getEnrichedMovie: (movieId: string) => Promise<EnrichedMovie>;
 };
 
 const Context = createContext<Context>({} as Context);
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
+// const baseURL = "http://localhost:3000";
 
 export const useDbContext = (): Context => useContext(Context);
 

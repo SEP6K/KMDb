@@ -32,7 +32,7 @@ export const Profile = () => {
           cursor: "pointer",
         }}
       />
-      <MovieList username={username} />
+      <MovieList />
     </div>
   );
 };
