@@ -8,7 +8,7 @@ export const UserPanel = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  const username = user?.username.replaceAll(" ", "%20");
+  const username = user?.username?.replaceAll(" ", "%20");
 
   return (
     <div
