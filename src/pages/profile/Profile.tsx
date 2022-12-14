@@ -1,4 +1,3 @@
-import { auth } from "../../../utils/firebase";
 import { useAuth } from "../../auth/auth-provider";
 import { MovieList } from "../../components/movieList";
 import { NavBar } from "../../components/nav";
