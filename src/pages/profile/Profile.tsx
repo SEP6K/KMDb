@@ -5,7 +5,7 @@ import { NavBar } from "../../components/nav";
 export const Profile = () => {
   const { user } = useAuth();
 
-  const username = user?.username.replaceAll(" ", "%20");
+  const username = user?.username?.replaceAll(" ", "%20");
 
   return (
     <div
@@ -53,7 +53,7 @@ export const Profile = () => {
             gap: "8px",
           }}
         >
-          <p>{username}</p>
+          <p>{user?.username}</p>
           <p
             style={{
               fontSize: "20px",

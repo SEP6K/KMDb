@@ -9,6 +9,7 @@ import { Spinner } from "./spinner";
 export const MovieList = () => {
   const [favMovies, setFavMovies] = useState<EnrichedMovie[]>([]);
   const [similarMovies, setSimilarMovies] = useState<TmdbMovieResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     getMovieById,
@@ -46,7 +47,7 @@ export const MovieList = () => {
     getSimilarMoviesList();
   }, [auth.currentUser]);
 
-  if (favMovies.length === 0) {
+  if (isLoading) {
     return (
       <div
         style={{
@@ -67,6 +68,23 @@ export const MovieList = () => {
         >
           <Spinner />
         </div>
+      </div>
+    );
+  }
+
+  if (favMovies.length === 0) {
+    return (
+      <div
+        style={{
+          height: "80%",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "32px",
+        }}
+      >
+        Your favourite movies will show up here.
       </div>
     );
   }
