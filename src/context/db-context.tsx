@@ -1,6 +1,10 @@
 import React, { createContext, useContext } from "react";
 import { ActorWithMovies, YearlyActors } from "../models/actor";
-import { FavouriteMovies, SimpleMovie, TmdbMovie } from "../models/movie";
+import {
+  FavouriteMovies,
+  SimpleMovie,
+  TmdbMovieResponse,
+} from "../models/movie";
 import { YearRating } from "../models/rating";
 
 type Props = {
@@ -21,7 +25,7 @@ type Context = {
     dob: string
   ) => Promise<void>;
   getFavouriteMoviesForUser: (username: string) => Promise<FavouriteMovies[]>;
-  getSimilarMoviesForUser: (uId: string) => Promise<TmdbMovie[]>;
+  getSimilarMoviesForUser: (uId: string) => Promise<TmdbMovieResponse[]>;
 };
 
 const Context = createContext<Context>({} as Context);
@@ -100,9 +104,11 @@ export const DbContext = ({ children }: Props) => {
     );
   };
 
-  const getSimilarMoviesForUser = async (uId: string): Promise<TmdbMovie[]> => {
+  const getSimilarMoviesForUser = async (
+    uId: string
+  ): Promise<TmdbMovieResponse[]> => {
     return await fetch(baseURL + `/movie/similar/${uId}`).then(
-      (res) => res.json() as Promise<TmdbMovie[]>
+      (res) => res.json() as Promise<TmdbMovieResponse[]>
     );
   };
 

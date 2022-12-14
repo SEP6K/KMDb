@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { auth } from "../../utils/firebase";
 import { useAuth } from "../auth/auth-provider";
+import { Spinner } from "../components/spinner";
 import { useDbContext } from "../context/db-context";
 import { SimpleMovie, TmdbMovieResponse } from "../models/movie";
+import { Movie } from "./movie";
 
 export const MovieList = (username: string) => {
   const [favMovies, setFavMovies] = useState([]);
@@ -25,7 +27,6 @@ export const MovieList = (username: string) => {
           return movieInfo;
         })
       );
-
       setFavMovies(movies);
     });
   }, []);
@@ -42,14 +43,24 @@ export const MovieList = (username: string) => {
 
   return (
     <div>
-      Favourite movies list:
+      Your favourite movies:
       {favMovies.map((movie: SimpleMovie) => {
         return <p>{movie.title}</p>;
       })}
       You might also like:
-      {similarMovies.map((movie: TmdbMovie) => {
-        return <p>{movie.title}</p>;
-      })}
+      <div
+        style={{
+          height: "30vh",
+          width: "100vw",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        {similarMovies.map((movie: TmdbMovie) => {
+          // return <p>{movie.title}</p>;
+          return <Movie movie={movie} />;
+        })}
+      </div>
     </div>
   );
 };
