@@ -91,6 +91,10 @@ input:hover {
   border-color: #646cff;
 }
 
+.clear-search:hover {
+  background: #646cff;
+}
+
 .infinite {
   animation: infinity infinite 1s;
 }

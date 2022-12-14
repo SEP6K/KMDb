@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-import { Search } from "./search";
 import { UserPanel } from "./user-panel";
 
 export const NavBar = () => {
@@ -33,7 +32,6 @@ export const NavBar = () => {
         </p>
         <button onClick={() => navigate("/movies")}>Movies</button>
         <button onClick={() => navigate("/ratings")}>Yearly ratings</button>
-        <Search />
       </div>
       <div
         style={{
