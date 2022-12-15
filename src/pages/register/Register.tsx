@@ -25,7 +25,7 @@ const Register = () => {
           res.user.uid,
           res.user.displayName ?? "",
           gender,
-          dob.toLocaleString()
+          dob.toLocaleDateString()
         );
         navigate("/");
       })
@@ -44,7 +44,7 @@ const Register = () => {
     }
     signUpWithEmailAndPass(email, password, username)
       .then((res) => {
-        saveUserInfo(res.user.uid, username, gender, dob.toLocaleString());
+        saveUserInfo(res.user.uid, username, gender, dob.toLocaleDateString());
         navigate("/");
       })
       .catch((err) => {
