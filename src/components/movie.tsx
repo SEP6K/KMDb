@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { EnrichedMovie, TmdbMovieResponse } from "../models/movie";
 
 type Props = {
@@ -5,6 +6,7 @@ type Props = {
 };
 
 export const TmdbMovie = ({ movie }: Props) => {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -21,6 +23,7 @@ export const TmdbMovie = ({ movie }: Props) => {
         background: `linear-gradient(to right, transparent, #1a1a1a 60%), url(${movie.backdrop_path})`,
       }}
       className="fancy-background"
+      onClick={() => navigate(`/movie/${movie.id}`)}
     >
       <div
         style={{
@@ -51,6 +54,7 @@ type EnrichedMovieProps = {
 };
 
 export const Movie = ({ movie }: EnrichedMovieProps) => {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -67,6 +71,7 @@ export const Movie = ({ movie }: EnrichedMovieProps) => {
         background: `linear-gradient(to right, transparent, #1a1a1a 60%), url(${movie.backdropPath})`,
       }}
       className="fancy-background"
+      onClick={() => navigate(`/movie/${movie.id}`)}
     >
       <div
         style={{

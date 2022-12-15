@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebase";
 import { useAuth } from "../auth/auth-provider";
 import { useDbContext } from "../context/db-context";
@@ -10,6 +11,7 @@ export const MovieList = () => {
   const [favMovies, setFavMovies] = useState<EnrichedMovie[]>([]);
   const [similarMovies, setSimilarMovies] = useState<TmdbMovieResponse[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const {
     getMovieById,
@@ -23,6 +25,7 @@ export const MovieList = () => {
     if (!user) return;
 
     const getFavouriteMoviesList = async () => {
+      setIsLoading(true);
       return await getFavouriteMoviesForUser(user.username);
     };
 
@@ -32,7 +35,14 @@ export const MovieList = () => {
           const movieInfo = await getMovieById(element.movie_id);
           return await getEnrichedMovie(movieInfo.movie_id.toString());
         })
-      ).then((val) => setFavMovies(val));
+      ).then((val) => {
+        const filtered: EnrichedMovie[] = val.filter(
+          (v) => v !== undefined
+        ) as EnrichedMovie[];
+
+        setFavMovies(filtered);
+        setIsLoading(false);
+      });
     });
   }, []);
 

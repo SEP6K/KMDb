@@ -99,10 +99,18 @@ export type EnrichedMovie = {
   year: number;
   backdropPath: string;
   posterPath: string;
+  rating: number;
 };
 
 type Person = {
   id: number;
   name: string;
   birth: number;
+};
+
+export type Review = {
+  movie_id: string;
+  user_id: string;
+  user_comments: string;
+  user_ratings: number;
 };
