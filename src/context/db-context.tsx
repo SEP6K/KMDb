@@ -3,10 +3,12 @@ import { ActorWithMovies, YearlyActors } from "../models/actor";
 import {
   EnrichedMovie,
   FavouriteMovies,
+  Review,
   SimpleMovie,
   TmdbMovieResponse,
 } from "../models/movie";
 import { YearRating } from "../models/rating";
+import { UserInfo } from "../models/user";
 
 type Props = {
   children: React.ReactNode;
@@ -27,7 +29,15 @@ type Context = {
   ) => Promise<void>;
   getFavouriteMoviesForUser: (username: string) => Promise<FavouriteMovies[]>;
   getSimilarMoviesForUser: (uId: string) => Promise<TmdbMovieResponse[]>;
-  getEnrichedMovie: (movieId: string) => Promise<EnrichedMovie>;
+  getEnrichedMovie: (movieId: string) => Promise<EnrichedMovie | undefined>;
+  getReviewsForMovie: (movieId: string) => Promise<Review[]>;
+  reviewMovie: (review: Review) => Promise<Response>;
+  addMovieToFavourites: (movieId: string, userId: string) => Promise<Response>;
+  getUserDetail: (userId: string) => Promise<UserInfo>;
+  removeMovieFromFavourites: (
+    movieId: string,
+    userId: string
+  ) => Promise<Response>;
 };
 
 const Context = createContext<Context>({} as Context);
@@ -115,9 +125,56 @@ export const DbContext = ({ children }: Props) => {
     );
   };
 
-  const getEnrichedMovie = async (movieId: string): Promise<EnrichedMovie> => {
-    return await fetch(baseURL + `/movie/enriched/${movieId}`).then(
-      (res) => res.json() as Promise<EnrichedMovie>
+  const getEnrichedMovie = async (
+    movieId: string
+  ): Promise<EnrichedMovie | undefined> => {
+    return await fetch(baseURL + `/movie/enriched/${movieId}`)
+      .then((res) => res.json() as Promise<EnrichedMovie>)
+      .catch(() => undefined);
+  };
+
+  const getReviewsForMovie = async (movieId: string): Promise<Review[]> => {
+    return await fetch(baseURL + `/reviews/${movieId}`).then(
+      (res) => res.json() as Promise<Review[]>
+    );
+  };
+
+  const reviewMovie = async (review: Review) => {
+    return await fetch(baseURL + `/reviews`, {
+      method: "post",
+      body: JSON.stringify(review),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+  };
+
+  const addMovieToFavourites = async (movieId: string, userId: string) => {
+    return await fetch(baseURL + "/favouritemovies", {
+      method: "post",
+      body: JSON.stringify({ movie_id: movieId, user_id: userId }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+  };
+
+  const removeMovieFromFavourites = async (movieId: string, userId: string) => {
+    return await fetch(baseURL + "/favouritemovies", {
+      method: "delete",
+      body: JSON.stringify({ movie_id: movieId, user_id: userId }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+  };
+
+  const getUserDetail = async (userId: string) => {
+    return await fetch(baseURL + `/userinfo/${userId}`).then(
+      (res) => res.json() as Promise<UserInfo>
     );
   };
 
@@ -132,6 +189,11 @@ export const DbContext = ({ children }: Props) => {
     getFavouriteMoviesForUser,
     getSimilarMoviesForUser,
     getEnrichedMovie,
+    getReviewsForMovie,
+    reviewMovie,
+    addMovieToFavourites,
+    getUserDetail,
+    removeMovieFromFavourites,
   };
 
   return <Context.Provider value={context}>{children}</Context.Provider>;
