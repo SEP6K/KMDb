@@ -1,5 +1,5 @@
 import { Login } from "../pages/login/login";
-import { Movies } from "../pages/movies/movies";
+import { Movie } from "../pages/movie/movie";
 import { Profile } from "../pages/profile/Profile";
 import { Ratings } from "../pages/ratings/ratings";
 import Register from "../pages/register/Register";
@@ -19,15 +19,15 @@ export const routes: Route[] = [
     element: <Login />,
   },
   {
-    path: "/movies",
-    element: <Movies />,
-  },
-  {
     path: "/ratings",
     element: <Ratings />,
   },
   {
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    path: "/movie/:movieId",
+    element: <Movie />,
   },
 ];
