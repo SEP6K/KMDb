@@ -40,12 +40,10 @@ const Register = () => {
       !dob
     ) {
       setError("All fields are required.");
-      console.log(email, password, username, gender, dob);
       return;
     }
     signUpWithEmailAndPass(email, password, username)
       .then((res) => {
-        console.log(res.user);
         saveUserInfo(res.user.uid, username, gender, dob.toLocaleString());
         navigate("/");
       })

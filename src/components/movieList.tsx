@@ -40,8 +40,6 @@ export const MovieList = () => {
           (v) => v !== undefined
         ) as EnrichedMovie[];
 
-        console.log(filtered);
-
         setFavMovies(filtered);
         setIsLoading(false);
       });

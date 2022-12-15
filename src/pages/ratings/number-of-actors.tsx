@@ -65,8 +65,6 @@ export const NumberOfActors = () => {
       const startIndex = actors.indexOf(start);
       const endIndex = actors.indexOf(end);
 
-      console.log(startIndex, endIndex);
-
       const range = actors.slice(startIndex, endIndex);
       const labels = actors.map((a) => a.birth);
 
@@ -75,7 +73,6 @@ export const NumberOfActors = () => {
         data: range.map((i) => i.count),
       };
 
-      console.log(data);
       return {
         labels: labels,
         datasets: [data],
