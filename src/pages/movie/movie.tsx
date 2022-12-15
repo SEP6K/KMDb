@@ -189,17 +189,19 @@ export const Movie = () => {
                 </div>
               ))}
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                color: "white",
-              }}
-            >
-              <AiFillDollarCircle />
-              <p>{movie.boxOffice} Box office</p>
-            </div>
+            {movie.boxOffice && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "white",
+                }}
+              >
+                <AiFillDollarCircle />
+                <p>{movie.boxOffice} Box office</p>
+              </div>
+            )}
             <div
               style={{
                 display: "flex",
@@ -245,13 +247,20 @@ export const Movie = () => {
               );
             })}
           </div>
-          <p>
-            Directed by{" "}
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
+            <span style={{ marginRight: "4px" }}>Directed by</span>
             <span style={{ color: "#646cff" }}>{movie?.director.name}</span>
-            {", "}
-            written by{" "}
-            <span style={{ color: "#646cff" }}>{movie?.writers}</span>
-          </p>
+            {movie.writers && (
+              <div>
+                <span style={{ marginRight: "4px" }}>,</span>written by{" "}
+                <span style={{ color: "#646cff" }}>{movie?.writers}</span>
+              </div>
+            )}
+          </div>
           <p
             className="description"
             style={{
@@ -275,21 +284,23 @@ export const Movie = () => {
               padding: "16px",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "8px",
-                background: "#1a1a1a",
-                padding: "0.1em 0.6em",
-                fontSize: "14px",
-                gap: "8px",
-              }}
-            >
-              {movie.awards}
-              <BsFillAwardFill style={{ color: "#646cff" }} />
-            </div>
+            {movie.awards && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "8px",
+                  background: "#1a1a1a",
+                  padding: "0.1em 0.6em",
+                  fontSize: "14px",
+                  gap: "8px",
+                }}
+              >
+                {movie.awards}
+                <BsFillAwardFill style={{ color: "#646cff" }} />
+              </div>
+            )}
           </div>
         </div>
         <div

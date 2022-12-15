@@ -20,6 +20,7 @@ export const TmdbMovie = ({ movie }: Props) => {
         gap: "16px",
         width: "700px",
         height: "300px",
+        cursor: "pointer",
         background: `linear-gradient(to right, transparent, #1a1a1a 60%), url(${movie.backdrop_path})`,
       }}
       className="fancy-background"
@@ -68,6 +69,7 @@ export const Movie = ({ movie }: EnrichedMovieProps) => {
         gap: "16px",
         width: "700px",
         height: "300px",
+        cursor: "pointer",
         background: `linear-gradient(to right, transparent, #1a1a1a 60%), url(${movie.backdropPath})`,
       }}
       className="fancy-background"
