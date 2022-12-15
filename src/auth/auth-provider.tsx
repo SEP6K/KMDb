@@ -18,10 +18,14 @@ type Context = {
   user?: User;
   signUpWithEmailAndPass: (
     email: string,
-    password: string
+    password: string,
+    username: string
   ) => Promise<UserCredential>;
   googleLogin: () => Promise<UserCredential>;
-  signInWithEmailAndPass: (email: string, password: string) => Promise<void>;
+  signInWithEmailAndPass: (
+    email: string,
+    password: string
+  ) => Promise<UserCredential | undefined>;
   logout: () => Promise<void>;
 };
 
@@ -50,12 +54,16 @@ export const AuthContext: React.FC<ContextProps> = ({ children }) => {
     }
   }, [user]);
 
-  const signUpWithEmailAndPass = async (email: string, password: string) =>
+  const signUpWithEmailAndPass = async (
+    email: string,
+    password: string,
+    username: string
+  ) =>
     createUserWithEmailAndPassword(appAuth, email, password).then((user) => {
       if (user.user) {
         setUser({
           email: user.user.email!,
-          username: user.user.displayName!,
+          username: username,
         });
       }
 
@@ -75,16 +83,19 @@ export const AuthContext: React.FC<ContextProps> = ({ children }) => {
     });
 
   const signInWithEmailAndPass = async (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password).then((user) => {
-      if (user.user) {
-        setUser({
-          email: user.user.email!,
-          username: user.user.displayName!,
-        });
-      }
+    return signInWithEmailAndPassword(auth, email, password).then(
+      (user) => {
+        if (user.user) {
+          setUser({
+            email: user.user.email!,
+            username: user.user.displayName!,
+          });
+        }
 
-      return user;
-    });
+        return user;
+      },
+      () => undefined
+    );
   };
 
   const logout = async () =>

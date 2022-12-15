@@ -1,41 +1,24 @@
 import { VscClose } from "react-icons/vsc";
-import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { useDbContext } from "../context/db-context";
 import { SimpleMovie } from "../models/movie";
 import { Spinner } from "./spinner";
+import { useNavigate } from "react-router-dom";
 
-export const Search = () => {
-  const [search, setSearch] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
-  const { getMovieByTitle, getMovieByYear } = useDbContext();
-  const [searchResult, setSearchResult] = useState<SimpleMovie[]>([]);
+type Props = {
+  onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClear: () => void;
+  searchResult: SimpleMovie[];
+  isLoading: boolean;
+  search: string;
+};
 
-  useEffect(() => {
-    if (search.length === 0) return;
-    setIsLoading(true);
-    const handler = setTimeout(() => {
-      if (search !== "") {
-        const a = async () => {
-          if (search.match(/^[12][0-9]{3}$/)) {
-            return await getMovieByYear(parseInt(search));
-          }
-
-          return await getMovieByTitle(search);
-        };
-
-        a().then((res) => {
-          setSearchResult(res);
-          setIsLoading(false);
-        });
-      } else {
-        setIsLoading(false);
-      }
-    }, 1000);
-
-    return () => clearTimeout(handler);
-  }, [search]);
-
+export const Search = ({
+  onClear,
+  onSearch,
+  searchResult,
+  isLoading,
+  search,
+}: Props) => {
   return (
     <div
       style={{
@@ -46,6 +29,7 @@ export const Search = () => {
         transition: "background .1s",
         height: "100%",
         position: "relative",
+        width: "100%",
       }}
     >
       <CiSearch
@@ -61,10 +45,11 @@ export const Search = () => {
         style={{
           paddingLeft: "44px",
           height: "100%",
-          marginRight: "16px",
+          marginRight: "10px",
+          width: "100%",
         }}
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={onSearch}
       ></input>
       <div
         style={{
@@ -75,14 +60,27 @@ export const Search = () => {
         }}
       >
         {search.length > 0 && !isLoading ? (
-          <VscClose
+          <div
+            onClick={onClear}
             style={{
-              cursor: "pointer",
-              height: "24px",
-              width: "24px",
+              height: "30px",
+              width: "30px",
+              borderRadius: "50%",
+              transition: ".2s ease-in-out",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-            onClick={() => setSearch("")}
-          />
+            className="clear-search"
+          >
+            <VscClose
+              style={{
+                cursor: "pointer",
+                height: "24px",
+                width: "24px",
+              }}
+            />
+          </div>
         ) : (
           <Spinner />
         )}
@@ -100,11 +98,12 @@ export const Search = () => {
           width: "100%",
         }}
       >
-        {searchResult.map((result) => {
+        {searchResult?.map((result) => {
           return (
             <ResultItem
               title={result.title}
               year={result.year}
+              id={result.movie_id}
               key={result.movie_id}
             />
           );
@@ -117,9 +116,11 @@ export const Search = () => {
 type ResultProps = {
   title: string;
   year: number;
+  id: number;
 };
 
-const ResultItem = ({ title, year }: ResultProps) => {
+const ResultItem = ({ title, year, id }: ResultProps) => {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -134,6 +135,7 @@ const ResultItem = ({ title, year }: ResultProps) => {
         transition: ".2s ease-in-out",
       }}
       className="search-result"
+      onClick={() => navigate(`/movie/${id}`)}
     >
       <div style={{ fontWeight: 500 }}>{title}</div>
       <div

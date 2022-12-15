@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/auth-provider";
 
@@ -7,6 +7,15 @@ export const UserPanel = () => {
   const [color, setColor] = useState("transparent");
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
+
+  const username = user?.username?.replaceAll(" ", "%20");
+
   return (
     <div
       style={{
@@ -34,7 +43,7 @@ export const UserPanel = () => {
           borderRadius: "50%",
           width: "42px",
           height: "42px",
-          backgroundImage: "url(https://api.multiavatar.com/Binx%20Bond.png)",
+          backgroundImage: `url(https://api.multiavatar.com/${username}.png)`,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
@@ -69,7 +78,13 @@ export const UserPanel = () => {
             borderRadius: "2px",
           }}
         />
-        <button>Profile</button>
+        <button
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          Profile
+        </button>
         <button
           onClick={() => {
             navigate("/login");

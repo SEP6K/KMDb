@@ -1,16 +1,43 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { useAuth } from "./auth/auth-provider";
+import { useEffect, useState } from "react";
 import { Footer } from "./components/footer";
 import { NavBar } from "./components/nav";
+import { Search } from "./components/search";
+import { useDbContext } from "./context/db-context";
+import { SimpleMovie } from "./models/movie";
 
 function App() {
-  const navigate = useNavigate();
-  const { user } = useAuth();
+  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { getMovieByTitle, getMovieByYear } = useDbContext();
+  const [searchResult, setSearchResult] = useState<SimpleMovie[]>([]);
 
   useEffect(() => {
-    if (!user) navigate("/login");
-  }, [user]);
+    if (search.length === 0) {
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
+    const handler = setTimeout(() => {
+      if (search !== "") {
+        const a = async () => {
+          if (search.match(/^[12][0-9]{3}$/)) {
+            return await getMovieByYear(parseInt(search));
+          }
+
+          return await getMovieByTitle(search);
+        };
+
+        a().then((res) => {
+          setSearchResult(res);
+          setIsLoading(false);
+        });
+      } else {
+        setIsLoading(false);
+      }
+    }, 1000);
+
+    return () => clearTimeout(handler);
+  }, [search]);
 
   return (
     <div
@@ -30,11 +57,32 @@ function App() {
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
-          gap: "16px",
           height: "100%",
+          width: "100%",
         }}
       >
-        Hello world
+        <div
+          style={{
+            height: "50%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              scale: "150%",
+            }}
+          >
+            <Search
+              isLoading={isLoading}
+              onClear={() => setSearch("")}
+              onSearch={(e) => setSearch(e.target.value)}
+              searchResult={searchResult}
+              search={search}
+            />
+          </div>
+        </div>
       </div>
       <Footer />
     </div>

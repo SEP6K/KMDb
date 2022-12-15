@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BsCheck2 } from "react-icons/bs";
 
 type Props = {
