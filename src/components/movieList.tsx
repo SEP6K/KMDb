@@ -50,7 +50,10 @@ export const MovieList = () => {
     const getSimilarMoviesList = async () => {
       if (!auth.currentUser) return;
       return await getSimilarMoviesForUser(auth.currentUser.uid).then((val) => {
-        setSimilarMovies(val);
+        const filtered: TmdbMovieResponse[] = val.filter(
+          (v) => v !== undefined && v !== null
+        ) as TmdbMovieResponse[];
+        setSimilarMovies(filtered);
       });
     };
 
@@ -135,29 +138,32 @@ export const MovieList = () => {
           })}
         </div>
       </div>
-      <div>
-        <p
-          style={{
-            fontSize: "24px",
-            marginBottom: "32px",
-          }}
-        >
-          You might also like:
-        </p>
-        <div
-          style={{
-            display: "flex",
-            gap: "32px",
-            overflowX: "auto",
-            width: "calc(100vw - 64px)",
-            borderRadius: "8px",
-          }}
-        >
-          {similarMovies.map((movie: TmdbMovieResponse) => {
-            return <TmdbMovie movie={movie} key={movie.id} />;
-          })}
+      {similarMovies.length > 0 && (
+        <div>
+          <p
+            style={{
+              fontSize: "24px",
+              marginBottom: "32px",
+            }}
+          >
+            You might also like:
+          </p>
+          <div
+            style={{
+              display: "flex",
+              gap: "32px",
+              overflowX: "auto",
+              width: "calc(100vw - 64px)",
+              borderRadius: "8px",
+            }}
+          >
+            {similarMovies.map((movie: TmdbMovieResponse) => {
+              if (!movie) return;
+              return <TmdbMovie movie={movie} key={movie.id} />;
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

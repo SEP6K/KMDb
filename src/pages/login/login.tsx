@@ -7,8 +7,12 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const { signInWithEmailAndPass, user, googleLogin } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-  const signIn = async () => await signInWithEmailAndPass(email, password);
+  const signIn = async () =>
+    await signInWithEmailAndPass(email, password).then((val) => {
+      if (val === undefined) setError("Failed to log in.");
+    });
 
   useEffect(() => {
     if (user) navigate("/");
@@ -66,26 +70,36 @@ export const Login = () => {
             Register
           </button>
         </div>
+        <div style={{ textAlign: "center", color: "red" }}>{error}</div>
         <div
           style={{
-            height: "1px",
-            width: "100%",
-            backgroundColor: "gray",
-          }}
-        />
-        <p
-          style={{
-            position: "absolute",
-            top: "45px",
-            left: "50%",
-            translate: "-50% 0",
-            padding: "0 8px",
-            background: "black",
+            display: "flex",
+            gap: "16px",
+            flexDirection: "column",
+            position: "relative",
           }}
         >
-          or
-        </p>
-        <button onClick={googleLogin}>Google OAuth</button>
+          <div
+            style={{
+              height: "1px",
+              width: "100%",
+              backgroundColor: "gray",
+            }}
+          />
+          <p
+            style={{
+              position: "absolute",
+              top: -13,
+              left: "50%",
+              translate: "-50% 0",
+              padding: "0 8px",
+              background: "black",
+            }}
+          >
+            or
+          </p>
+          <button onClick={googleLogin}>Google OAuth</button>
+        </div>
       </div>
     </div>
   );

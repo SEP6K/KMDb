@@ -9,6 +9,7 @@ type Props = {
 export const GenderPicker = ({ onChange }: Props) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<"M" | "F">("M");
+  onChange("M");
   return (
     <div
       style={{
@@ -71,6 +72,7 @@ export const GenderPicker = ({ onChange }: Props) => {
           onClick={() => {
             setSelected("M");
             setOpen(false);
+            onChange("M");
           }}
         >
           Male
@@ -93,6 +95,7 @@ export const GenderPicker = ({ onChange }: Props) => {
           onClick={() => {
             setSelected("F");
             setOpen(false);
+            onChange("F");
           }}
         >
           Female

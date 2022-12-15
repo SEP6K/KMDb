@@ -11,7 +11,8 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [gender, setGender] = useState("");
-  const [dob, setDob] = useState(new Date());
+  const [dob, setDob] = useState<Date>(new Date());
+  const [error, setError] = useState<string>();
 
   const navigate = useNavigate();
   const { googleLogin, signUpWithEmailAndPass } = useAuth();
@@ -20,20 +21,34 @@ const Register = () => {
   const GoogleLogin = async () =>
     await googleLogin()
       .then(async (res) => {
-        await saveUserInfo(res.user.uid, res.user.displayName ?? "", "", "");
+        await saveUserInfo(
+          res.user.uid,
+          res.user.displayName ?? "",
+          gender,
+          dob.toLocaleString()
+        );
         navigate("/");
       })
       .catch((err) => console.error(err));
 
   const signUpWithEmailAndPassword = async () => {
+    if (
+      email === "" ||
+      password === "" ||
+      username === "" ||
+      gender === "" ||
+      !dob
+    ) {
+      setError("All fields are required.");
+      return;
+    }
     signUpWithEmailAndPass(email, password, username)
       .then((res) => {
-        console.log(res.user);
-        saveUserInfo(res.user.uid, username, gender, dob.toLocaleDateString());
+        saveUserInfo(res.user.uid, username, gender, dob.toLocaleString());
         navigate("/");
       })
       .catch((err) => {
-        console.error(err);
+        setError(err.message);
       });
   };
 
@@ -85,7 +100,10 @@ const Register = () => {
         }}
       >
         <p>Birthday:</p>
-        <DatePicker selected={dob} onChange={(date: Date) => setDob(date)} />
+        <DatePicker
+          selected={dob as Date}
+          onChange={(date: Date) => setDob(date)}
+        />
       </div>
       <div
         style={{
@@ -95,27 +113,37 @@ const Register = () => {
           position: "relative",
         }}
       >
-        <button onClick={signUpWithEmailAndPassword}>Register</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <div
           style={{
-            height: "1px",
-            width: "100%",
-            backgroundColor: "gray",
-          }}
-        />
-        <p
-          style={{
-            position: "absolute",
-            top: "47px",
-            left: "50%",
-            translate: "-50% 0",
-            padding: "0 8px",
-            background: "black",
+            display: "flex",
+            gap: "16px",
+            flexDirection: "column",
+            position: "relative",
           }}
         >
-          or
-        </p>
-        <button onClick={GoogleLogin}>Google OAuth</button>
+          <button onClick={signUpWithEmailAndPassword}>Register</button>
+          <div
+            style={{
+              height: "1px",
+              width: "100%",
+              backgroundColor: "gray",
+            }}
+          />
+          <p
+            style={{
+              position: "absolute",
+              top: "47px",
+              left: "50%",
+              translate: "-50% 0",
+              padding: "0 8px",
+              background: "black",
+            }}
+          >
+            or
+          </p>
+          <button onClick={GoogleLogin}>Google OAuth</button>
+        </div>
       </div>
     </div>
   );

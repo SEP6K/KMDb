@@ -98,7 +98,6 @@ export const DbContext = ({ children }: Props) => {
       gender: gender,
       date_of_birth: dob,
     });
-    console.log(userCred);
     await fetch(baseURL + "/userinfo", {
       method: "post",
       headers: {

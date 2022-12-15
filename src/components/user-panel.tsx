@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/auth-provider";
 
@@ -7,6 +7,12 @@ export const UserPanel = () => {
   const [color, setColor] = useState("transparent");
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   const username = user?.username?.replaceAll(" ", "%20");
 

@@ -22,7 +22,10 @@ type Context = {
     username: string
   ) => Promise<UserCredential>;
   googleLogin: () => Promise<UserCredential>;
-  signInWithEmailAndPass: (email: string, password: string) => Promise<void>;
+  signInWithEmailAndPass: (
+    email: string,
+    password: string
+  ) => Promise<UserCredential | undefined>;
   logout: () => Promise<void>;
 };
 
@@ -80,16 +83,19 @@ export const AuthContext: React.FC<ContextProps> = ({ children }) => {
     });
 
   const signInWithEmailAndPass = async (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password).then((user) => {
-      if (user.user) {
-        setUser({
-          email: user.user.email!,
-          username: user.user.displayName!,
-        });
-      }
+    return signInWithEmailAndPassword(auth, email, password).then(
+      (user) => {
+        if (user.user) {
+          setUser({
+            email: user.user.email!,
+            username: user.user.displayName!,
+          });
+        }
 
-      return user;
-    });
+        return user;
+      },
+      () => undefined
+    );
   };
 
   const logout = async () =>

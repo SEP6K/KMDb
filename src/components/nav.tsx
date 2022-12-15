@@ -26,12 +26,13 @@ export const NavBar = () => {
             color: "#646cff",
             fontSize: "28px",
             fontWeight: "900",
+            cursor: "pointer",
           }}
+          onClick={() => navigate("/")}
         >
           KMDb
         </p>
-        <button onClick={() => navigate("/movies")}>Movies</button>
-        <button onClick={() => navigate("/ratings")}>Yearly ratings</button>
+        <button onClick={() => navigate("/ratings")}>Statistics</button>
       </div>
       <div
         style={{
