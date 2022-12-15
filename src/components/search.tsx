@@ -2,6 +2,7 @@ import { VscClose } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
 import { SimpleMovie } from "../models/movie";
 import { Spinner } from "./spinner";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -102,6 +103,7 @@ export const Search = ({
             <ResultItem
               title={result.title}
               year={result.year}
+              id={result.movie_id}
               key={result.movie_id}
             />
           );
@@ -114,9 +116,11 @@ export const Search = ({
 type ResultProps = {
   title: string;
   year: number;
+  id: number;
 };
 
-const ResultItem = ({ title, year }: ResultProps) => {
+const ResultItem = ({ title, year, id }: ResultProps) => {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -131,6 +135,7 @@ const ResultItem = ({ title, year }: ResultProps) => {
         transition: ".2s ease-in-out",
       }}
       className="search-result"
+      onClick={() => navigate(`/movie/${id}`)}
     >
       <div style={{ fontWeight: 500 }}>{title}</div>
       <div

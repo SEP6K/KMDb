@@ -91,7 +91,7 @@ export const Movie = () => {
     return null;
   }
 
-  const genres = movie.genre.split(",");
+  const genres = movie.genre?.split(",");
   const actors = movie.actors;
 
   return (
@@ -171,7 +171,7 @@ export const Movie = () => {
                 gap: "16px",
               }}
             >
-              {genres.map((val) => (
+              {genres?.map((val) => (
                 <div
                   style={{
                     height: "24px",
